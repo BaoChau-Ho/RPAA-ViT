@@ -48,7 +48,7 @@ class MultiheadAttention(nn.Module):
         # avg_weights: N x sq x sq
 
         context_layer = context_layer.permute(0,2,1,3)
-        context_layer = context_layer.view(z_shape[0], z_shape[1], -1)
+        context_layer = context_layer.contiguous.view(z_shape[0], z_shape[1], -1)
         attn_output = self.fc(context_layer)
         attn_output = self.fc_dropout(attn_output)
         # attn_output: N x sq x hd

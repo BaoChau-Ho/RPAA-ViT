@@ -127,6 +127,11 @@ class PatchAttentionModel(nn.Module):
             self.layers.append(layer)
         self.softmax_dropout = nn.Dropout(config.pam_dropout_rate)
         self.transconvWeights = self.tranconvWeights = torch.ones((1, 3, config.patch_size, config.patch_size))
+
+    def to(self, *args, **kwargs):
+        self = super().to(*args, **kwargs) 
+        self.tranconvWeights = self.tranconvWeights.to(*args, **kwargs)
+        return self
     
     def forward(self, imgs, delta):
         nb, _, h, w = imgs.shape

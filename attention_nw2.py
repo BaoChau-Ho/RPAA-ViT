@@ -144,7 +144,7 @@ class PatchAttentionModel(nn.Module):
         attn_probs = F.softmax(attn_scores, dim=-1).view(nb, 1, nh, nw)
         attn_probs = self.softmax_dropout(attn_probs)
         attn_probs = F.conv_transpose2d(attn_probs, self.tranconvWeights, stride=self.patch_size, padding=0)
-        delta *= attn_probs
+        delta *= 3000*attn_probs
         adv_imgs = imgs+delta
         adv_imgs = adv_imgs.clamp(0,1)
         return adv_imgs
